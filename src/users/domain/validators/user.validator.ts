@@ -1,5 +1,6 @@
 import {
   IsDate,
+  IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -17,6 +18,7 @@ export class UserRoles {
   @MaxLength(255)
   @IsString()
   @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   @MaxLength(100)
