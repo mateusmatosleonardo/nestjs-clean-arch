@@ -126,30 +126,17 @@ describe('UserValidator unit tests', () => {
 
   describe('CreatedAt field', () => {
     it('Invalidation cases for createdAt field', () => {
-      const isValid = sut.validate({ ...props, createdAt: 20 as any });
+      let isValid = sut.validate({ ...props, createdAt: 20 as any });
       expect(isValid).toBeFalsy();
       expect(sut.errors['createdAt']).toStrictEqual([
         'createdAt must be a Date instance',
       ]);
 
-      /*
-      isValid = sut.validate({ ...UserDataBuilder({}), name: '' as any });
+      isValid = sut.validate({ ...props, createdAt: 'hi' as any });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['name']).toStrictEqual(['name should not be empty']);
-
-      isValid = sut.validate({ ...UserDataBuilder({}), name: 12 as any });
-      expect(isValid).toBeFalsy();
-      expect(sut.errors['name']).toStrictEqual([
-        'name must be a string',
-        'name must be shorter than or equal to 255 characters',
+      expect(sut.errors['createdAt']).toStrictEqual([
+        'createdAt must be a Date instance',
       ]);
-
-      isValid = sut.validate({ ...UserDataBuilder({}), name: 'a'.repeat(256) });
-      expect(isValid).toBeFalsy();
-      expect(sut.errors['name']).toStrictEqual([
-        'name must be shorter than or equal to 255 characters',
-      ]);
-*/
     });
   });
 });
