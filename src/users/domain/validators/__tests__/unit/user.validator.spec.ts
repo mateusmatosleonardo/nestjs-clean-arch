@@ -1,3 +1,4 @@
+import { UserProps } from '../../../entities/user.entity';
 import { UserDataBuilder } from '../../../testing/helpers/user-data-builder';
 import {
   UserRoles,
@@ -6,10 +7,12 @@ import {
 } from '../../user.validator';
 
 let sut: UserValidator;
+let props: UserProps;
 
 describe('UserValidator unit tests', () => {
   beforeEach(() => {
     sut = UserValidatorFactory.create();
+    props = UserDataBuilder({});
   });
 
   it('Valid cases for user validator class', () => {
@@ -118,6 +121,35 @@ describe('UserValidator unit tests', () => {
       expect(sut.errors['password']).toStrictEqual([
         'password must be shorter than or equal to 100 characters',
       ]);
+    });
+  });
+
+  describe('CreatedAt field', () => {
+    it('Invalidation cases for createdAt field', () => {
+      const isValid = sut.validate({ ...props, createdAt: 20 as any });
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['createdAt']).toStrictEqual([
+        'createdAt must be a Date instance',
+      ]);
+
+      /*
+      isValid = sut.validate({ ...UserDataBuilder({}), name: '' as any });
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['name']).toStrictEqual(['name should not be empty']);
+
+      isValid = sut.validate({ ...UserDataBuilder({}), name: 12 as any });
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['name']).toStrictEqual([
+        'name must be a string',
+        'name must be shorter than or equal to 255 characters',
+      ]);
+
+      isValid = sut.validate({ ...UserDataBuilder({}), name: 'a'.repeat(256) });
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['name']).toStrictEqual([
+        'name must be shorter than or equal to 255 characters',
+      ]);
+*/
     });
   });
 });
