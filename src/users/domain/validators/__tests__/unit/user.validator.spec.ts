@@ -1,4 +1,4 @@
-import { UserEntity, UserProps } from '../../../entities/user.entity';
+import { UserProps } from '../../../entities/user.entity';
 import { UserDataBuilder } from '../../../testing/helpers/user-data-builder';
 import {
   UserRoles,
@@ -11,7 +11,6 @@ let props: UserProps;
 
 describe('UserValidator unit tests', () => {
   beforeEach(() => {
-    UserEntity.validate = jest.fn();
     sut = UserValidatorFactory.create();
     props = UserDataBuilder({});
   });
