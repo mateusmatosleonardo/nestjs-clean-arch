@@ -30,7 +30,11 @@ export class SearchParams {
   }
 
   private set page(value: number) {
-    return;
+    let _page = +value;
+    if (Number.isNaN(_page) || _page <= 0 || parseInt(_page as any) !== _page) {
+      _page = 1;
+    }
+    this._page = _page;
   }
 
   get perPage() {
@@ -38,7 +42,15 @@ export class SearchParams {
   }
 
   private set perPage(value: number) {
-    return;
+    let _perPage = +value;
+    if (
+      Number.isNaN(_perPage) ||
+      _perPage <= 0 ||
+      parseInt(_perPage as any) !== _perPage
+    ) {
+      _perPage = 1;
+    }
+    this._page = _perPage;
   }
 
   get sort() {
@@ -46,7 +58,8 @@ export class SearchParams {
   }
 
   private set sort(value: string | null) {
-    return;
+    this._sort =
+      value === null || value === undefined || value === '' ? null : `${value}`;
   }
 
   get sortDirection() {
@@ -54,7 +67,13 @@ export class SearchParams {
   }
 
   private set sortDirection(value: SearchDirection | null) {
-    return;
+    if (!this._sort) {
+      this._sortDirection = null;
+      return;
+    }
+
+    const dir = `${value}`.toLowerCase();
+    this._sortDirection = dir !== 'asc' && dir !== 'desc' ? 'desc' : dir;
   }
 
   get filter() {
@@ -62,7 +81,8 @@ export class SearchParams {
   }
 
   private set filter(value: string | null) {
-    return;
+    this._filter =
+      value === null || value === undefined || value === '' ? null : `${value}`;
   }
 }
 
